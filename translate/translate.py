@@ -1,6 +1,10 @@
 from flask import Flask
 import requests
 import os
+import logging
+
+log = logging.getLogger("translate")
+logging.basicConfig(level=20, format='%(asctime)s %(levelname)s: %(message)s')
 
 translate_fun = os.getenv("FUN", 'False').lower() in ('true', '1', 't', 'True')
 shrek_service_url = os.getenv("SHREK_SERVICE_URL","http://0.0.0.0:5000")
@@ -14,7 +18,10 @@ app = Flask(__name__)
 
 @app.route("/translate-shrek")
 def translate_shrek():
-    shrek_quote = requests.get(f"{shrek_service_url}/shrek")
+    shrek_quote_response = requests.get(f"{shrek_service_url}/shrek")
+    shrek_quote = shrek_quote_response.content
+    log.info(f"shrek Quote from server: {shrek_quote}")
+    print(shrek_quote)
     if translate_fun == True:
         response = translate_to_fun(shrek_quote)
     else:
@@ -23,8 +30,9 @@ def translate_shrek():
 
 @app.route("/translate-donkey")
 def translate_donkey():
-    donkey_quote = requests.get(f"{shrek_service_url}/donkey")
-
+    donkey_quote_response = requests.get(f"{shrek_service_url}/donkey")
+    donkey_quote = donkey_quote_response.content
+    log.info(f"Donkey Quote from server: {donkey_quote}")
     if translate_fun == True:
         response = translate_to_fun(donkey_quote)
     else:
@@ -33,8 +41,9 @@ def translate_donkey():
 
 def translate_to_fun(quote_text: str):
     to_translate = f"text={quote_text}"
-    translated = requests.post(translate_api_url_fun, data=to_translate, headers={"X-Funtranslations-Api-Secret": "<api_key>"})
-    print(translated)
+    translated_response = requests.post(translate_api_url_fun, data=to_translate, headers={"X-Funtranslations-Api-Secret": "<api_key>"})
+    translated = translated_response.content
+    log.info(f"translated: {translated}")
     return translated
 
 def translate_to_ru(quote_text: str):
@@ -45,8 +54,9 @@ def translate_to_ru(quote_text: str):
         "format": "text",
         "api_key": ""
 	}
-    translated = requests.post(translate_api_url_ru, data=to_translate, headers={"Content-Type": "application/json"})
-    print(translated)
+    translated_response = requests.post(translate_api_url_ru, data=to_translate, headers={"Content-Type": "application/json"})
+    translated = translated_response.content
+    log.info(f"translated: {translated}")
     return translated
 
 if __name__ == "__main__":

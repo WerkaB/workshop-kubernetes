@@ -4,7 +4,7 @@ zmienna środowiskowa - FUN typu bool
 docker pull python:latest
 cd workspace/shrek
 docker build -t shrek:latest .
-docker run -d -p 5000:5000 shrek:latest
+docker run -d -p 5000:5000 --name=shrek shrek:latest
 docker container ls -a
 docker inspect <nazwa-kontenera>
 curl http://0.0.0.0:5000/shrek
@@ -12,6 +12,14 @@ curl http://0.0.0.0:5000/donkey
 
 cd ../translate
 docker build -t translate:latest .
-docker run -d -p 8080:8080 --env=SHREK_SERVICE_URL=<adres-serwisu> translate:latest
+docker run -d -p 8080:8080 --name=translate --env=FUN=True --env=SHREK_SERVICE_URL="http://172.18.0.2:5000" translate:latest
 curl http://0.0.0.0:8080/translate-shrek
 curl http://0.0.0.0:8080/translate-donkey
+
+
+docker pull python:latest
+docker pull busybox
+cd workspace
+git clone https://github.com/WerkaB/workshop-kubernetes.git
+cd workshop-kubernetes
+cd shrek
