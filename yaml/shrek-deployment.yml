@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: SHREK
+  name: SHREK
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: SHREK
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: SHREK
+    spec:
+      containers:
+      - image: shrek:latest
+        name: shrek
+        resources: {}
+        volumeMounts:
+          - mountPath: /app/quotes.json
+            name: shrek-cm
+      volumes:
+      - name: shrek-cm
+        configMap:
+          name: shrek-cm
+          items:
+          - key: "quotes.json"
+            path: "quotes.json"

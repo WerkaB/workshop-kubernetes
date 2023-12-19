@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: TRANSLATE
+  name: TRANSLATE
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: TRANSLATE
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: TRANSLATE
+    spec:
+      containers:
+      - image: translate:latest
+        name: translate
+        resources: {}
+        envFrom:
+          - configMapRef:
+              name: translate-cm
