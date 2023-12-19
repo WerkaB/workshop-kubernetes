@@ -1,0 +1,17 @@
+zmienna środowiskowa - QUOTES_PATH
+zmienna środowiskowa - FUN typu bool
+
+docker pull python:latest
+cd workspace/shrek
+docker build -t shrek:latest .
+docker run -d -p 5000:5000 shrek:latest
+docker container ls -a
+docker inspect <nazwa-kontenera>
+curl http://0.0.0.0:5000/shrek
+curl http://0.0.0.0:5000/donkey
+
+cd ../translate
+docker build -t translate:latest .
+docker run -d -p 8080:8080 --env=SHREK_SERVICE_URL=<adres-serwisu> translate:latest
+curl http://0.0.0.0:8080/translate-shrek
+curl http://0.0.0.0:8080/translate-donkey
