@@ -24,9 +24,29 @@ kubectl config current-context
 kubectl config set-context --current --namespace=werka
 minikube image load my-image
 
-docker pull python:latest; docker pull busybox; git clone https://github.com/WerkaB/workshop-kubernetes.git; cd workshop-kubernetes; cd shrek; docker build -t shrek:latest .; cd ../translate; docker build -t translate:latest .; curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64; sudo install minikube-linux-amd64 /usr/local/bin/minikube; minikube start --force; minikube image load shrek; minikube image load translate; cd ..;
+## From workshop
+
+docker pull python:latest
+docker pull busybox
+git clone https://github.com/WerkaB/workshop-kubernetes.git
+cd workshop-kubernetes
+cd shrek
+docker build -t shrek:latest .
+cd ../translate
+docker build -t translate:latest .
+curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+sudo install minikube-linux-amd64 /usr/local/bin/minikube
+minikube start --force
+minikube image load shrek
+minikube image load translate
+cd ..
 
 
-For cm and deploy creation
+## For cm and deploy creation
 
-mkdir yaml; cd yaml; kubectl create deploy SHREK --image=shrek:latest --replicas=1 --output=yaml --dry-run=client >> shrek.deploy.yaml; kubectl create deploy TRANSLATE --image=translate:latest --replicas=1 --output=yaml --dry-run=client >> translate.deploy.yaml; cd ../shrek/; kubectl create cm shrek-cm --from-file=quotes.json --output=yaml --dry-run=client >> ../yaml/shrek-cm.yaml
+mkdir yaml
+cd yaml
+kubectl create deploy SHREK --image=shrek:latest --replicas=1 --output=yaml --dry-run=client >> shrek.deploy.yaml
+kubectl create deploy TRANSLATE --image=translate:latest --replicas=1 --output=yaml --dry-run=client >> translate.deploy.yaml
+cd ../shrek/
+kubectl create cm shrek-cm --from-file=quotes.json --output=yaml --dry-run=client >> ../yaml/shrek-cm.yaml
