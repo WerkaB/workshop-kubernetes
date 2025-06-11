@@ -13,6 +13,7 @@
 
 ## Run containers in docker
 
+``` bash
 docker pull python:latest
 docker pull busybox
 docker build -t shrek:latest .
@@ -35,9 +36,11 @@ kubectl create ns werka
 kubectl config current-context
 kubectl config set-context --current --namespace=werka
 minikube image load my-image
+```
 
 ## From workshop 12.2023
 
+``` bash
 docker pull python:latest
 docker pull busybox
 git clone https://github.com/WerkaB/workshop-kubernetes.git
@@ -52,16 +55,18 @@ minikube start --force
 minikube image load shrek
 minikube image load translate
 cd ..
-
+```
 
 ### For cm and deploy creation
 
+``` bash
 mkdir yaml
 cd yaml
 kubectl create deploy SHREK --image=shrek:latest --replicas=1 --output=yaml --dry-run=client >> shrek.deploy.yaml
 kubectl create deploy TRANSLATE --image=translate:latest --replicas=1 --output=yaml --dry-run=client >> translate.deploy.yaml
 cd ../shrek/
 kubectl create cm shrek-cm --from-file=quotes.json --output=yaml --dry-run=client >> ../yaml/shrek-cm.yaml
+```
 
 ## For Projekt Innowacje
 
