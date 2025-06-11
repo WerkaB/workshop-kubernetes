@@ -2,22 +2,23 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: TRANSLATE
-  name: TRANSLATE
+    app: translate
+  name: translate
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: TRANSLATE
+      app: translate
   strategy: {}
   template:
     metadata:
       labels:
-        app: TRANSLATE
+        app: translate
     spec:
       containers:
       - image: translate:latest
         name: translate
+        imagePullPolicy: Never
         resources: {}
         envFrom:
           - configMapRef:
