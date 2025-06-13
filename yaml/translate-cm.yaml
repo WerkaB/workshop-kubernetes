@@ -1,7 +1,7 @@
 apiVersion: v1
 data:
   FUN: "True"
-  SHREK_SERVICE_URL: shrek:5000
+  SHREK_SERVICE_URL: http://shrek:5000
 kind: ConfigMap
 metadata:
   name: translate-cm

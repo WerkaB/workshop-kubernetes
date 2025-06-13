@@ -12,7 +12,8 @@ translate_fun = os.getenv("FUN", 'False').lower() in ('true', '1', 't', 'True')
 shrek_service_url = os.getenv("SHREK_SERVICE_URL","http://0.0.0.0:5000")
 
 translate_api_url_fun = "https://api.funtranslations.com/translate/minion.json"
-translate_api_url_ru = "https://libretranslate.com/translate"
+# translate_api_url_ru = "https://libretranslate.com/translate"
+translate_api_url_ru = "https://api.funtranslations.com/translate/morse.json"
 
 print(translate_fun)
 
@@ -48,15 +49,22 @@ def translate_to_fun(quote_text: str):
     log.info(f"translated: {translated}")
     return translated
 
+# def translate_to_ru(quote_text: str):
+#     to_translate = json.dumps({
+#         "q": urllib.parse.quote(quote_text, safe=''),
+#         "source": "auto",
+#         "target": "pl",
+#         "format": "text",
+#         "api_key": ""
+# 	})
+#     translated_response = requests.post(translate_api_url_ru, data=to_translate, headers={"Content-Type": "application/json"})
+#     translated = translated_response.content
+#     log.info(f"translated: {translated}")
+#     return translated
+
 def translate_to_ru(quote_text: str):
-    to_translate = json.dumps({
-        "q": urllib.parse.quote(quote_text, safe=''),
-        "source": "auto",
-        "target": "pl",
-        "format": "text",
-        "api_key": ""
-	})
-    translated_response = requests.post(translate_api_url_ru, data=to_translate, headers={"Content-Type": "application/json"})
+    to_translate = f"text={urllib.parse.quote(quote_text, safe='')}"
+    translated_response = requests.post(translate_api_url_fun, params=to_translate, headers={"Content-Type": "application/x-www-form-urlencoded", "X-Funtranslations-Api-Secret": "<api_key>"})
     translated = translated_response.content
     log.info(f"translated: {translated}")
     return translated

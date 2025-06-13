@@ -101,20 +101,16 @@ vim pod_shrek.yaml  # Change the spec.template.spec.containers[].imagePullPolicy
 kubectl apply -f pod_shrek.yaml
 
 # Deployment of the ready application
-kubectl apply -f shrek-cm.yaml
-kubectl apply -f shrek-deployment.yaml
-kubectl apply -f translate-cm.yaml
-kubectl apply -f translate-deployment.yaml
+cd workshop-kubernetes
+kubectl apply -f -f ./yaml
 
 kubectl get po -w
 kubectl expose deploy shrek --port=5000 --target-port=5000
-kubectl expose deploy translate --port=8000 --target-port=8000
+kubectl expose deploy translate --port=8000 --target-port=8080
 
-kubectl run bbox --image=busybox --restart=Never -- sleep 3600
-kubectl exec -ti bbox -- sh
-wget shrek.default.svc.cluster.local:5000/shrek
-
-kubectl create ns werka
-kubectl config current-context
-kubectl config set-context --current --namespace=werka
+kubectl run test --image=alpine:3.22.0 --restart=Never -- sleep 3600
+kubectl exec -ti test -- sh
+curl shrek.default.svc.cluster.local:5000/shrek
+curl shrek.default.svc.cluster.local:5000/donkey
+curl translate.default.svc.cluster.local:5000/translate-shrek
 ```
