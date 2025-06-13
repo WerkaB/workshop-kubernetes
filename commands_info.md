@@ -110,7 +110,8 @@ kubectl expose deploy translate --port=8000 --target-port=8080
 
 kubectl run test --image=alpine:3.22.0 --restart=Never -- sleep 3600
 kubectl exec -ti test -- sh
+apk --update add curl
 curl shrek.default.svc.cluster.local:5000/shrek
 curl shrek.default.svc.cluster.local:5000/donkey
-curl translate.default.svc.cluster.local:5000/translate-shrek
+curl translate.default.svc.cluster.local:8000/translate-shrek
 ```

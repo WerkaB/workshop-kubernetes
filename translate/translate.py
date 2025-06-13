@@ -64,7 +64,7 @@ def translate_to_fun(quote_text: str):
 
 def translate_to_ru(quote_text: str):
     to_translate = f"text={urllib.parse.quote(quote_text, safe='')}"
-    translated_response = requests.post(translate_api_url_fun, params=to_translate, headers={"Content-Type": "application/x-www-form-urlencoded", "X-Funtranslations-Api-Secret": "<api_key>"})
+    translated_response = requests.post(translate_api_url_ru, params=to_translate, headers={"Content-Type": "application/x-www-form-urlencoded", "X-Funtranslations-Api-Secret": "<api_key>"})
     translated = translated_response.content
     log.info(f"translated: {translated}")
     return translated
